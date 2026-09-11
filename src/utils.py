@@ -8,6 +8,9 @@ from dataclasses import dataclass
 from sklearn.model_selection import GridSearchCV
 from src.exception import CustomException
 import dill
+
+
+
 def save_object(file_path:str,obj):
     try:
         dir_path=os.path.dirname(file_path)
@@ -41,6 +44,15 @@ def evaluate_models(x_train,y_train,x_test,y_test,models,param):
             report[list(models.keys())[i]]=test_model_score
 
         return report
+
+    except Exception as e:
+        raise CustomException(e,sys)
+
+
+def load_object(file_path):
+    try:
+        with open(file_path,"rb") as file_obj:
+            return dill.load(file_obj)
 
     except Exception as e:
         raise CustomException(e,sys)
